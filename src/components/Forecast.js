@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Forecast.css'; // Make sure to include the CSS file
 
 const Forecast = () => {
   // State to hold the prediction from the backend
@@ -10,7 +11,7 @@ const Forecast = () => {
   // Mock data for testing
   const waterData = {
     ph: 7.6,
-    temperature: 24
+    temperature: 24,
   };
 
   useEffect(() => {
@@ -37,14 +38,14 @@ const Forecast = () => {
   }, []); // Empty dependency array to run effect once
 
   return (
-    <div>
-      <h3>Water Quality Forecast</h3>
+    <div className="forecast-section">
+      <h3 className="forecast-title">Water Quality Forecast</h3>
       {loading ? (
-        <p>Loading prediction...</p>
+        <p className="forecast-loading">Loading prediction...</p>
       ) : error ? (
-        <p>{error}</p>
+        <p className="forecast-error">{error}</p>
       ) : (
-        <p>Predicted Water Quality: {prediction}</p>
+        <p className="forecast-prediction">Predicted Water Quality: {prediction}</p>
       )}
     </div>
   );

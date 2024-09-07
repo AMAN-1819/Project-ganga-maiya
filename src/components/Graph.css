@@ -1,0 +1,47 @@
+.graph-section {
+    padding: 20px;
+    background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+    margin: 20px auto;
+    max-width: 800px;
+    transition: transform 0.3s ease;
+  }
+  
+  .graph-section:hover {
+    transform: translateY(-10px);
+  }
+  
+  .graph-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  
+  .graph {
+    width: 100%;
+    height: 400px;
+  }
+  
+  @media (max-width: 768px) {
+    .graph {
+      height: 300px;
+    }
+  }
+  
+  .graph-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #ff8a00, #e52e71);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+  
+  

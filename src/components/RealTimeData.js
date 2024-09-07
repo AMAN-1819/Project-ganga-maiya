@@ -10,6 +10,7 @@ import {
   PointElement,
   LineElement
 } from 'chart.js';
+import './RealTimeData.css';
 
 // Register necessary Chart.js components
 Chart.register(
@@ -48,18 +49,31 @@ const RealTimeData = () => {
       chartInstance.current.destroy();
     }
 
+    // Create a gradient for 3D effect
+    const gradient1 = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient1.addColorStop(0, '#ff6384');
+    gradient1.addColorStop(1, '#36a2eb');
+
+    const gradient2 = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient2.addColorStop(0, '#4bc0c0');
+    gradient2.addColorStop(1, '#ffce56');
+
     // Create a new chart
     chartInstance.current = new Chart(ctx, {
-      type: 'bar', // Change to the appropriate type if needed
+      type: 'bar', // Bar chart for real-time data
       data: {
         labels: ['pH', 'Temperature'], // Labels for the data
         datasets: [
           {
             label: 'Real-Time Data',
             data: [data.ph, data.temp], // Data from state
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            backgroundColor: [gradient1, gradient2], // Gradient color for bars
+            hoverBackgroundColor: ['#ff6384', '#36a2eb'], // Hover colors
             borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
+            borderWidth: 2,
+            borderRadius: 10, // Rounded bar edges for a modern look
+            hoverBorderWidth: 3,
+            barThickness: 60, // Custom thickness
           }
         ]
       },
@@ -67,13 +81,37 @@ const RealTimeData = () => {
         responsive: true,
         scales: {
           x: {
-            type: 'category'
+            type: 'category',
+            ticks: {
+              color: '#fff', // White text on x-axis
+            }
           },
           y: {
-            beginAtZero: true
+            beginAtZero: true,
+            max: 25,
+            ticks: {
+              color: '#fff', // White text on y-axis
+            }
           }
-        }
-      }
+        },
+        plugins: {
+          legend: {
+            display: false, // Hides the legend
+          },
+          tooltip: {
+            enabled: true, // Tooltip shows data
+            callbacks: {
+              label: (tooltipItem) => `${tooltipItem.dataset.label}: ${tooltipItem.parsed.y}`,
+            },
+            backgroundColor: '#fff', // Tooltip background color
+            titleColor: '#000', // Tooltip title color
+            bodyColor: '#000', // Tooltip text color
+          }
+        },
+        layout: {
+          padding: 20, // Padding around the chart
+        },
+      },
     });
 
     // Cleanup the chart instance when the component unmounts
@@ -85,10 +123,12 @@ const RealTimeData = () => {
   }, [data]); // Dependency on data to update the chart when data changes
 
   return (
-    <div>
-      <h3>Real-Time Data</h3>
-      <p>pH: {data.ph}</p>
-      <p>Temperature: {data.temp} °C</p>
+    <div className="data-section">
+      <h3 className="data-title">Real-Time Data</h3>
+      <div className="data-values">
+        <p><span className="data-label">pH:</span> {data.ph}</p>
+        <p><span className="data-label">Temperature:</span> {data.temp} °C</p>
+      </div>
       <canvas ref={chartRef}></canvas>
     </div>
   );
